@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Ern {
     public static void main(String[] args) {
@@ -14,6 +15,7 @@ public class Ern {
         System.out.println(line);
 
         Scanner scanner = new Scanner(System.in);
+        ArrayList<String> tasks = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
 
@@ -22,14 +24,19 @@ public class Ern {
                 System.out.println("Bye. Hope to see you again soon!");
                 System.out.println(line);
                 break;
+            } else if (input.equalsIgnoreCase("list")) {
+                System.out.println(line);
+                for (int i = 0; i < tasks.size(); i++) {
+                    System.out.println((i + 1) + ". " + tasks.get(i));
+                }
+                System.out.println(line);
+            } else {
+                    tasks.add(input);
+                    System.out.println(line);
+                    System.out.println("Added: " + input);
+                    System.out.println(line);
+                }
             }
-            System.out.println(line);
-            System.out.println(input);
-            System.out.println(line);
-        }
         scanner.close();
     }
-
-
-
 }
