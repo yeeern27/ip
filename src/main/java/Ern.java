@@ -17,6 +17,7 @@ public class Ern {
 
         Scanner scanner = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
+
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
 
@@ -29,8 +30,7 @@ public class Ern {
                 System.out.println(line);
                 System.out.println("Here are the tasks in your list: ");
                 for (int i = 0; i < tasks.size(); i++) {
-                    Task task = tasks.get(i);
-                    System.out.println(" " + (i + 1) + ". [" + task.getStatusIcon() + "]" + task.getDescription());
+                    System.out.println(" " + (i + 1) + ". " + tasks.get(i));
                 }
                 System.out.println(line);
             } else if (input.toLowerCase().startsWith("mark ")) {
@@ -55,11 +55,32 @@ public class Ern {
                 } else {
                     System.out.println("Invalid index!");
                 }
+            } else if (input.toLowerCase().startsWith("todo ")) {
+                String description = input.substring(5).trim();
+                tasks.add(new ToDo(description));
+                System.out.println(line);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println(" " + tasks.get(tasks.size() - 1));
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println(line);
+            } else if (input.toLowerCase().startsWith("deadline ")) {
+                String[] parts = input.substring(9).split(" /by ", 2);
+                tasks.add(new Deadline(parts[0], parts[1]));
+                System.out.println(line);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println(" " + tasks.get(tasks.size() - 1));
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println(line);
+            } else if (input.toLowerCase().startsWith("event ")) {
+                String[] parts = input.substring(6).split(" /from |/to ", 3);
+                tasks.add(new Event(parts[0], parts[1], parts[2]));
+                System.out.println(line);
+                System.out.println("Got it. I've added this task: ");
+                System.out.println(" " + tasks.get(tasks.size() - 1));
+                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+                System.out.println(line);
             } else {
-                tasks.add(new Task(input));
-                System.out.println(line);
-                System.out.println("Added: " + input);
-                System.out.println(line);
+                System.out.println("Invalid input!");
             }
         }
         scanner.close();
