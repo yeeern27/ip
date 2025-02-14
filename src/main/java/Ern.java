@@ -14,24 +14,27 @@ public class Ern {
 
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine();
-
-            if (input.equalsIgnoreCase("bye")) {
-                sayBye();
-                break;
-            } else if (input.equalsIgnoreCase("list")) {
-                printTasklist(tasks);
-            } else if (input.toLowerCase().startsWith("mark ")) {
-                markTaskAsDone(input, tasks);
-            } else if (input.toLowerCase().startsWith("unmark ")) {
-                unmarkTask(input, tasks);
-            } else if (input.toLowerCase().startsWith("todo ")) {
-                addToDoTask(input, tasks);
-            } else if (input.toLowerCase().startsWith("deadline ")) {
-                addDeadline(input, tasks);
-            } else if (input.toLowerCase().startsWith("event ")) {
-                addEvent(input, tasks);
-            } else {
-                System.out.println("Invalid input!");
+            try {
+                if (input.equalsIgnoreCase("bye")) {
+                    sayBye();
+                    break;
+                } else if (input.equalsIgnoreCase("list")) {
+                    printTasklist(tasks);
+                } else if (input.toLowerCase().startsWith("mark ")) {
+                    markTaskAsDone(input, tasks);
+                } else if (input.toLowerCase().startsWith("unmark ")) {
+                    unmarkTask(input, tasks);
+                } else if (input.toLowerCase().startsWith("todo ")) {
+                    addToDoTask(input, tasks);
+                } else if (input.toLowerCase().startsWith("deadline ")) {
+                    addDeadline(input, tasks);
+                } else if (input.toLowerCase().startsWith("event ")) {
+                    addEvent(input, tasks);
+                } else {
+                    throw new MyException("something wrong, please check!");
+                }
+            } catch (MyException e) {
+                System.out.println("OOPS! " + e.getMessage());
             }
         }
         scanner.close();
@@ -65,33 +68,44 @@ public class Ern {
     }
 
     private static void markTaskAsDone(String input, ArrayList<Task> tasks) {
-        int index = Integer.parseInt(input.substring(5).trim()) - 1;
-        if (index >= 0 && index < tasks.size()) {
-            tasks.get(index).markAsDone();
-            System.out.println(line);
-            System.out.println("Nice! I have marked this as Done!: ");
-            System.out.println("[" + tasks.get(index).getStatusIcon() + "] " + tasks.get(index).getDescription());
-            System.out.println(line);
-        } else {
-            System.out.println("Invalid index!");
+        try {
+            int index = Integer.parseInt(input.substring(5).trim()) - 1;
+            if (index >= 0 && index < tasks.size()) {
+                tasks.get(index).markAsDone();
+                System.out.println(line);
+                System.out.println("Nice! I have marked this as Done!: ");
+                System.out.println("[" + tasks.get(index).getStatusIcon() + "] " + tasks.get(index).getDescription());
+                System.out.println(line);
+            } else {
+                throw new MyException("Give me a proper number!!!");
+            }
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private static void unmarkTask(String input, ArrayList<Task> tasks) {
-        int index = Integer.parseInt(input.substring(7).trim()) - 1;
-        if (index >= 0 && index < tasks.size()) {
-            tasks.get(index).markAsNotDone();
-            System.out.println(line);
-            System.out.println("OK! I have marked this as Not Done!: ");
-            System.out.println("[" + tasks.get(index).getStatusIcon() + "] " + tasks.get(index).getDescription());
-            System.out.println(line);
-        } else {
-            System.out.println("Invalid index!");
+        try {
+            int index = Integer.parseInt(input.substring(7).trim()) - 1;
+            if (index >= 0 && index < tasks.size()) {
+                tasks.get(index).markAsNotDone();
+                System.out.println(line);
+                System.out.println("OK! I have marked this as Not Done!: ");
+                System.out.println("[" + tasks.get(index).getStatusIcon() + "] " + tasks.get(index).getDescription());
+                System.out.println(line);
+            } else {
+                throw new MyException("Give me a proper number!!!");
+            }
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void addToDoTask(String input, ArrayList<Task> tasks) {
+    private static void addToDoTask(String input, ArrayList<Task> tasks) throws MyException{
         String description = input.substring(5).trim();
+        if (description.isEmpty()) {
+            throw new MyException("Description empty! Tell me what you wanna do");
+        }
         tasks.add(new ToDo(description));
         System.out.println(line);
         System.out.println("Got it. I've added this task: ");
@@ -100,8 +114,11 @@ public class Ern {
         System.out.println(line);
     }
 
-    private static void addDeadline(String input, ArrayList<Task> tasks) {
+    private static void addDeadline(String input, ArrayList<Task> tasks) throws MyException {
         String[] parts = input.substring(9).split(" /by ", 2);
+        if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
+            throw new MyException("Wrong deadline format! Type properly");
+        }
         tasks.add(new Deadline(parts[0], parts[1]));
         System.out.println(line);
         System.out.println("Got it. I've added this task: ");
@@ -110,8 +127,11 @@ public class Ern {
         System.out.println(line);
     }
 
-    private static void addEvent(String input, ArrayList<Task> tasks) {
+    private static void addEvent(String input, ArrayList<Task> tasks) throws MyException {
         String[] parts = input.substring(6).split(" /from |/to ", 3);
+        if (parts.length != 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
+            throw new MyException("Wrong event format! Type properly");
+        }
         tasks.add(new Event(parts[0], parts[1], parts[2]));
         System.out.println(line);
         System.out.println("Got it. I've added this task: ");
