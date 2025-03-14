@@ -197,7 +197,7 @@ bye
 Bye. Hope to see you again soon!
 ```
 
-### Commands Summary
+## Commands Summary
 | Command | Example |
 | -------- | -------- |
 | todo | `todo read book`|
