@@ -1,4 +1,0 @@
-T | done | a
-T | not done | b
-E | not done | b | 7  | 9
-D | not done | g | 7

@@ -67,7 +67,7 @@ public class Parser {
             taskList.markTaskAsDone(index);
             ui.markTaskAsDone(taskList.getTask(index));
         } catch (NumberFormatException e) {
-            throw new MyException("Give me a proper number!!!");
+            throw new MyException("Give me a proper index!!!");
         }
     }
 
@@ -82,7 +82,7 @@ public class Parser {
             taskList.unmarkTask(index);
             ui.unmarkTask(taskList.getTask(index));
         } catch (NumberFormatException e) {
-            throw new MyException("Give me a proper number!!!");
+            throw new MyException("Give me a proper index!!!");
         }
     }
 
@@ -108,7 +108,7 @@ public class Parser {
     private void addDeadline(String input) throws MyException {
         String[] parts = input.substring(9).split(" /by ", 2);
         if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            throw new MyException("Wrong deadline format! Type properly");
+            throw new MyException("Wrong deadline format! Correct format: deadline <> /by yyyy-MM-dd HH:mm");
         }
 
         try {
@@ -116,7 +116,7 @@ public class Parser {
             taskList.addTask(new Deadline(parts[0].trim(), by));
             ui.addTask(taskList.getTask(taskList.size()-1), taskList.size());
         } catch (DateTimeParseException e) {
-            throw new MyException("Invalid date format! Please check for right format");
+            throw new MyException("Invalid date format! Right format: yyyy-MM-dd HH:mm");
         }
     }
 
@@ -128,7 +128,7 @@ public class Parser {
     private void addEvent(String input) throws MyException {
         String[] parts = input.substring(6).split(" /from |/to ", 3);
         if (parts.length != 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
-            throw new MyException("Wrong event format! Type properly");
+            throw new MyException("Wrong event format! Correct format: event <> /from yyyy-MM-dd HH:mm /to yyyy-MM-dd HH:mm");
         }
         try {
             LocalDateTime from = LocalDateTime.parse(parts[1].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -136,7 +136,7 @@ public class Parser {
             taskList.addTask(new Event(parts[0].trim(), from, to));
             ui.addTask(taskList.getTask(taskList.size()-1), taskList.size());
         } catch (DateTimeParseException e) {
-            throw new MyException("Invalid date format! Please check for right format");
+            throw new MyException("Invalid date ! Right format: yyyy-MM-dd HH:mm");
         }
     }
 
@@ -152,7 +152,7 @@ public class Parser {
             taskList.deleteTask(index);
             ui.delete(removedTask, taskList.size());
         } catch (NumberFormatException e) {
-            throw new MyException("Give me a proper number!!!");
+            throw new MyException("Give me a proper index!!!");
         }
     }
 
