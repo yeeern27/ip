@@ -1,5 +1,6 @@
-import java.text.NumberFormat;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Parser {
 
@@ -70,8 +71,14 @@ public class Parser {
         if (parts.length != 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
             throw new MyException("Wrong deadline format! Type properly");
         }
-        taskList.addTask(new Deadline(parts[0], parts[1]));
-        ui.addTask(taskList.getTask(taskList.size()-1), taskList.size());
+
+        try {
+            LocalDateTime by = LocalDateTime.parse(parts[1].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            taskList.addTask(new Deadline(parts[0].trim(), by));
+            ui.addTask(taskList.getTask(taskList.size()-1), taskList.size());
+        } catch (DateTimeParseException e) {
+            throw new MyException("Invalid date format! Please check for right format");
+        }
     }
 
     private void addEvent(String input) throws MyException {
@@ -79,8 +86,14 @@ public class Parser {
         if (parts.length != 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
             throw new MyException("Wrong event format! Type properly");
         }
-        taskList.addTask(new Event(parts[0], parts[1], parts[2]));
-        ui.addTask(taskList.getTask(taskList.size()-1), taskList.size());
+        try {
+            LocalDateTime from = LocalDateTime.parse(parts[1].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime to = LocalDateTime.parse(parts[2].trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            taskList.addTask(new Event(parts[0].trim(), from, to));
+            ui.addTask(taskList.getTask(taskList.size()-1), taskList.size());
+        } catch (DateTimeParseException e) {
+            throw new MyException("Invalid date format! Please check for right format");
+        }
     }
 
     private void delete(String input) throws MyException {

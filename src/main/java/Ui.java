@@ -69,7 +69,7 @@ public class Ui {
 
     public void showLoadingError(MyException e) {
         System.out.println(line);
-        System.out.println("OOPS, Error " + e.getMessage());
+        System.out.println("OOPS, " + e.getMessage());
         System.out.println(line);
     }
 }

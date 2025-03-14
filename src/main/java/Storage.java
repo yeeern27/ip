@@ -1,3 +1,7 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -55,12 +59,23 @@ public class Storage {
                         break;
                     case "D":
                         if (parts.length > 3) {
-                            task = new Deadline(parts[2], parts[3]);
+                            try{
+                                LocalDateTime by = LocalDateTime.parse(parts[3], DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm"));
+                                task = new Deadline(parts[2], by);
+                            } catch (DateTimeParseException e){
+                                System.out.println("Error Loading deadline: " + e);
+                            }
                         }
                         break;
                     case "E":
                         if (parts.length > 4) {
-                            task = new Event(parts[2], parts[3], parts[4]);
+                            try{
+                                LocalDateTime from = LocalDateTime.parse(parts[3], DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm"));
+                                LocalDateTime to = LocalDateTime.parse(parts[4], DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm"));
+                                task = new Event(parts[2], from, to);
+                            } catch (DateTimeParseException e){
+                                System.out.println("Error Loading Event: " + e);
+                            }
                         }
                         break;
                     default:
