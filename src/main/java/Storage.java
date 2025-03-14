@@ -1,7 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -11,12 +10,19 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 
+/**
+ * Storage class that handles loading and saving of the tasks from and to a file
+ */
 public class Storage {
     private final String filePath;
 
+    /**
+     * Storage object that determines the file path for data storage
+     */
     public Storage() {
         this.filePath = getFilePath();
     }
+
     private String getFilePath() {
         URL location = Ern.class.getProtectionDomain().getCodeSource().getLocation();
         try {
@@ -31,6 +37,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads saved task from file
+     * @return An ArrayList of Task loaded from the file
+     * @throws MyException When error occurs during loading
+     */
     public ArrayList<Task> loadFromFile() throws MyException {
         ArrayList<Task> tasks = new ArrayList<>();
         File file = new File(filePath);
@@ -93,6 +104,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     *  Save tasks to the file
+     * @param tasks The ArrayList of Task to save
+     * @throws MyException When an error occur when saving
+     */
     public void saveToFile(ArrayList<Task> tasks) throws MyException {
         String filePath = getFilePath();
         try {
