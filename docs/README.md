@@ -61,7 +61,7 @@ deadline read book /by 2020-12-10 19:00
 ```java
 Got it. I've added this task:
 D | not done | read book | Dec 10 2020, 19:00
-Now you have 1 task in the list.
+Now you have 2 tasks in the list.
 ```
 
 ### 3. Add a Event Task
@@ -80,7 +80,7 @@ event read book /from 2020-12-10 19:00 /to 2020-12-10 20:00
 ```java
 Got it. I've added this task:
 E | not done | read book | Dec 10 2020, 19:00 | Dec 10 2020, 20:00 
-Now you have 1 task in the list.
+Now you have 3 tasks in the list.
 ```
 
 ### 4. List all tasks 
@@ -120,7 +120,7 @@ Nice! I have marked this as Done!:
 [X] read book
 ```
 
-### 5. Unmark a Marked Task 
+### 6. Unmark a Marked Task 
 
 Unmark a task that was marked as done
 
@@ -140,5 +140,72 @@ OK! I have marked this as Not Done!:
 [ ] read book
 ```
 
+### 7. Delete 
 
+Delete a task that is unwanted 
 
+#### Command : 
+```java
+delete <index of task>
+```
+
+#### Example : 
+```java
+delete 2
+```
+
+#### Expected Output : 
+```java
+Noted. I've deleteted this task:
+ D | not done | read book | Dec 10 2020, 19:00
+Now you have 2 tasks in the list 
+```
+
+### 8. Find
+
+Find the task by inputting the keyword 
+
+#### Command : 
+```java
+find <description of task>
+```
+
+#### Example : 
+```java
+find book
+```
+
+#### Expected Output : 
+```java
+Found 2 matching tasks. 
+Here are the matching tasks in your list:
+ T | not done | read book
+ E | not done | read book | Dec 10 2020, 19:00 | Dec 10 2020, 20:00 
+```
+
+### 9. Exit
+
+Exit the program 
+
+#### Command : 
+```java
+bye
+```
+
+#### Expected Output : 
+```java
+Bye. Hope to see you again soon!
+```
+
+### Commands Summary
+| Command | Example |
+| -------- | -------- |
+| todo | `todo read book`|
+| deadline | `deadline read book /by 2020-10-02 19:00` |
+| event | `event read book /from 2020-10-02 19:00 /to 2020-10-02 20:00` |
+| list | `list` |
+| mark | `mark 1` |
+| unmark | `unmark 1` |
+| delete | `delete 1` |
+| find | `find book` |
+| bye | `bye` |
